@@ -13,7 +13,7 @@ const CalculoGastosScreen = ({ navigation }) => {
 
   const [despesas, setDespesas] = useState([{ id: 1, nome: '', valor: '' }]);
   
-  // ✅ Estados para controlar repetição de CADA despesa
+  // Estados para controlar repetição de CADA despesa
   const [despesaRepete, setDespesaRepete] = useState({});
   const [despesaSempre, setDespesaSempre] = useState({});
   const [despesaMeses, setDespesaMeses] = useState({});
@@ -86,7 +86,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     }));
   };
 
-  // ✅ CORRIGIDO: Função para adicionar lançamento repetido
+  // Função para adicionar lançamento repetido
   const addLancamentoRepetido = async (nome, valor, tipo, repete, repete_sempre, repete_meses) => {
     try {
       const hoje = new Date();
@@ -166,7 +166,6 @@ const CalculoGastosScreen = ({ navigation }) => {
     setDespesaMeses({});
   };
 
-  // ✅ CORRIGIDO: handleSalvarLancamentos sem duplicação
   const handleSalvarLancamentos = async () => {
     if (!resultado) {
       Alert.alert('Atenção', 'Calcule os gastos antes de salvar!');

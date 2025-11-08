@@ -37,7 +37,15 @@ export default function RelatorioScreen() {
       
       if (periodoSelecionado === 'todos') {
         data = await getLancamentos();
-      } else if (periodoSelecionado === 'mes') {
+      } else if (periodoSelecionado === 'mesAnterior') {
+        const hoje = new Date();
+        const inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
+        const fim = new Date(hoje.getFullYear(), hoje.getMonth(), 0);
+        data = await getLancamentosByPeriodo(
+          inicio.toISOString().split('T')[0],
+          fim.toISOString().split('T')[0]
+        );
+      }else if (periodoSelecionado === 'mes') {
         const hoje = new Date();
         const inicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
         const fim = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
@@ -327,6 +335,7 @@ export default function RelatorioScreen() {
 
         {/* Filtro de Período */}
         <View style={relatorioStyles.periodoContainer}>
+          {renderPeriodoButton('mesAnterior', 'Últimos mês')}
           {renderPeriodoButton('semana', 'Últimos 7 dias')}
           {renderPeriodoButton('mes', 'Este mês')}
           {renderPeriodoButton('todos', 'Tudo')}
