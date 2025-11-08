@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../theme/Theme'; // Certifique-se que o caminho para o seu tema está correto
+import { colors } from '../../theme/Theme';
 
 export const gastosStyles = StyleSheet.create({
   // ---- Geral ----
@@ -9,7 +9,7 @@ export const gastosStyles = StyleSheet.create({
   },
   contentContainer: {
     padding: 20,
-    paddingBottom: 100, // Espaço para o final do scroll
+    paddingBottom: 100,
   },
   section: {
     marginBottom: 25,
@@ -33,6 +33,7 @@ export const gastosStyles = StyleSheet.create({
     borderColor: colors.borderColor,
     color: colors.textTitle,
     fontSize: 16,
+    marginBottom: 10,
   },
 
   // ---- Cabeçalho ----
@@ -43,6 +44,7 @@ export const gastosStyles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     color: colors.textTitle,
+    marginBottom: 5,
   },
   headerSubtitle: {
     fontSize: 16,
@@ -51,14 +53,15 @@ export const gastosStyles = StyleSheet.create({
 
   // ---- Despesas ----
   addButtonSmall: {
-    backgroundColor: colors.primary + '30', // Azul 30% opacidade
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    backgroundColor: colors.primary + '30',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 6,
   },
   addButtonSmallText: {
     color: colors.primary,
     fontWeight: 'bold',
+    fontSize: 14,
   },
   despesaItem: {
     flexDirection: 'row',
@@ -68,7 +71,7 @@ export const gastosStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.borderColor,
     marginBottom: 10,
-    paddingLeft: 10, // Espaço para o número
+    paddingLeft: 10,
   },
   despesaNumber: {
     backgroundColor: colors.borderColor,
@@ -82,6 +85,7 @@ export const gastosStyles = StyleSheet.create({
   despesaNumberText: {
     color: colors.textBody,
     fontWeight: 'bold',
+    fontSize: 14,
   },
   despesaInputs: {
     flex: 1,
@@ -90,12 +94,14 @@ export const gastosStyles = StyleSheet.create({
   },
   despesaInputNome: {
     flex: 1,
-    borderWidth: 0, // Remove a borda do input
+    borderWidth: 0,
     marginRight: 10,
+    backgroundColor: 'transparent',
   },
   despesaInputValor: {
     width: 100,
-    borderWidth: 0, // Remove a borda do input
+    borderWidth: 0,
+    backgroundColor: 'transparent',
   },
   removeButton: {
     padding: 10,
@@ -114,9 +120,10 @@ export const gastosStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
+    gap: 10,
   },
   button: {
-    flex: 1, // Faz os botões dividirem o espaço
+    flex: 1,
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
@@ -125,7 +132,6 @@ export const gastosStyles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.borderColor,
-    marginRight: 10, // Espaço entre os botões
   },
   buttonSecondaryText: {
     color: colors.textTitle,
@@ -146,25 +152,28 @@ export const gastosStyles = StyleSheet.create({
     marginTop: 30,
     backgroundColor: colors.card,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.borderColor,
-    overflow: 'hidden', // Para os cantos arredondados
+    borderWidth: 2,
+    borderColor: '#ffffff',
+    overflow: 'hidden',
   },
   resultadoTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.textTitle,
     padding: 20,
-    backgroundColor: colors.background, // Fundo leve
+    backgroundColor: colors.background,
+    borderBottomWidth: 1,
+    borderColor: colors.borderColor,
   },
   resultadoCard: {
     padding: 20,
+    backgroundColor: colors.card,
   },
   resultadoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 12,
   },
   resultadoRowBorder: {
     borderTopWidth: 1,
@@ -192,13 +201,15 @@ export const gastosStyles = StyleSheet.create({
   // ---- Status Cards (Saldo e Percentual) ----
   statusCard: {
     borderRadius: 8,
-    padding: 10,
+    padding: 15,
     marginHorizontal: 20,
     marginBottom: 15,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.borderColor,
   },
   statusText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   comprometimentoCard: {
@@ -206,7 +217,10 @@ export const gastosStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderColor: colors.borderColor,
+    backgroundColor: colors.card,
   },
   comprometimentoLabel: {
     fontSize: 16,
@@ -215,17 +229,17 @@ export const gastosStyles = StyleSheet.create({
   comprometimentoValor: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: colors.textTitle,
   },
   comprometimentoStatus: {
     fontSize: 14,
     fontWeight: 'bold',
-    marginLeft: 5,
-    marginBottom: 2,
+    marginLeft: 10,
   },
 
   // ---- Seleção para Salvar ----
   selecaoContainer: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.card,
     padding: 20,
     borderTopWidth: 1,
     borderColor: colors.borderColor,
@@ -239,9 +253,9 @@ export const gastosStyles = StyleSheet.create({
   checkboxItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.card,
+    backgroundColor: colors.background,
     borderRadius: 8,
-    padding: 15,
+    padding: 12,
     marginBottom: 10,
     borderWidth: 1,
     borderColor: colors.borderColor,
@@ -249,44 +263,79 @@ export const gastosStyles = StyleSheet.create({
   checkbox: {
     width: 24,
     height: 24,
-    borderRadius: 6,
+    borderRadius: 4,
     borderWidth: 2,
-    borderColor: colors.grey,
+    borderColor: '#ffffff',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
+    marginRight: 12,
+    backgroundColor: 'transparent',
   },
   checkboxChecked: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
   },
   checkboxIcon: {
-    color: '#fff',
+    color: '#ffffff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   checkboxContent: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   checkboxLabel: {
-    fontSize: 16,
+    fontSize: 14,
     color: colors.textTitle,
-    fontWeight: 'bold',
+    fontWeight: '500',
   },
   checkboxValor: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: colors.success, // Cor padrão de receita
+    color: colors.success,
+  },
+
+  // ---- Opções de Repetição ----
+  repeteOptionsContainer: {
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    padding: 12,
+    marginLeft: 36,
+    marginBottom: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+  },
+  mesesInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 10,
+    marginLeft: 36,
+  },
+  inputMeses: {
+    backgroundColor: colors.card,
+    borderRadius: 6,
+    padding: 8,
+    color: colors.textTitle,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    width: 70,
+    textAlign: 'center',
+    fontSize: 14,
   },
 
   // ---- Botão Salvar ----
   saveButton: {
-    backgroundColor: colors.success, // Verde
-    padding: 15,
+    backgroundColor: colors.success,
+    padding: 16,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 10,
+    marginHorizontal: 20,
+    marginTop: 15,
+    borderWidth: 1,
+    borderColor: colors.success,
   },
   saveButtonText: {
     color: '#fff',
@@ -295,9 +344,11 @@ export const gastosStyles = StyleSheet.create({
   },
   infoText: {
     textAlign: 'center',
-    color: colors.grey,
+    color: colors.textBody,
     fontSize: 12,
-    marginTop: 15,
+    marginHorizontal: 20,
+    marginTop: 12,
+    marginBottom: 20,
   },
 
   // ---- Cores de Status/Texto ----
@@ -313,4 +364,4 @@ export const gastosStyles = StyleSheet.create({
   normalColor: {
     color: colors.textTitle,
   },
-}); 
+});

@@ -11,11 +11,20 @@ export default function RelatorioScreen() {
   const [totalReceitas, setTotalReceitas] = useState(0);
   const [totalDespesas, setTotalDespesas] = useState(0);
   const [periodoSelecionado, setPeriodoSelecionado] = useState('todos');
+
+    //renda
   const [nomeRenda, setNomeRenda] = useState('');
   const [valorRenda, setValorRenda] = useState('');
+  const [rendaRepete, setRendaRepete] = useState(false);
+  const [rendaSempre, setRendaSempre] = useState(false);
+  const [rendaMeses, setRendaMeses] = useState('');
+
+  //despesa
   const [nomeDespesa, setNomeDespesa] = useState('');
   const [valorDespesa, setValorDespesa] = useState('');
-
+  const [despesaRepete, setDespesaRepete] = useState(false);
+  const [despesaSempre, setDespesaSempre] = useState(false);
+  const [despesaMeses, setDespesaMeses] = useState('');
   useFocusEffect(
     useCallback(() => {
       loadLancamentos();
@@ -78,57 +87,146 @@ export default function RelatorioScreen() {
     return true;
   };
 
+  const addLancamentosRepetidos = async (nome, valor, tipo, repeteData) => {
+  try {
+    const hoje = new Date();
+    let adicionado = false;
+    
+    if (repeteData.repete) {
+      if (repeteData.sempre) {
+        // Adiciona para os próximos 12 meses
+        for (let i = 0; i < 12; i++) {
+          const data = new Date(hoje);
+          data.setMonth(data.getMonth() + i);
+          const dataStr = data.toISOString().split('T')[0];
+
+          await addLancamento({
+            nome: nome,
+            valor: parseFloat(valor),
+            tipo: tipo,
+            data: dataStr,
+            repete: 1,
+            repete_sempre: 1,
+            repete_meses: 0
+          });
+          adicionado = true;
+        }
+      } else if (repeteData.meses && repeteData.meses > 0) {
+        // Adiciona pela quantidade de meses especificada
+        for (let i = 0; i < repeteData.meses; i++) {
+          const data = new Date(hoje);
+          data.setMonth(data.getMonth() + i);
+          const dataStr = data.toISOString().split('T')[0];
+
+          await addLancamento({
+            nome: nome,
+            valor: parseFloat(valor),
+            tipo: tipo,
+            data: dataStr,
+            repete: 1,
+            repete_sempre: 0,
+            repete_meses: repeteData.meses
+          });
+          adicionado = true;
+        }
+      }
+    } else {
+      // Apenas uma vez
+      const dataStr = hoje.toISOString().split('T')[0];
+      await addLancamento({
+        nome: nome,
+        valor: parseFloat(valor),
+        tipo: tipo,
+        data: dataStr,
+        repete: 0,
+        repete_sempre: 0,
+        repete_meses: 0
+      });
+      adicionado = true;
+    }
+
+    return adicionado;
+  } catch (error) {
+    console.error('Erro ao adicionar lançamentos repetidos:', error);
+    return false;
+  }
+};
+
   const handleAddRenda = async () => {
     if (!validarInputs(nomeRenda, valorRenda)) return;
 
-    try {
-      const hoje = new Date().toISOString().split('T')[0];
-      const success = await addLancamento({
-        nome: nomeRenda,
-        valor: parseFloat(valorRenda),
-        tipo: 'receita',
-        data: hoje
-      });
+    if (rendaRepete && !rendaSempre && !rendaMeses.trim()){
+      Alert.alert('Erro', 'Por favor, insira a quantidade de meses para repetir a renda');
+      return;
+    }
 
-      if (success) {
-        Alert.alert('✅ Sucesso', 'Renda adicionada com sucesso!');
+    try{
+      const repeteData ={
+        repete: rendaRepete,
+        sempre: rendaSempre,
+        meses: parseInt(rendaMeses) || 0
+      };
+
+      const success = await addLancamentosRepetidos(nomeRenda, valorRenda, 'receita', repeteData);
+
+      if(success){
+        const message = rendaRepete
+        ? (rendaSempre ? 'Renda adicionada mensalmente por 12 meses!' 
+                       : `Renda adicionada por ${rendaMeses} meses!`)
+                       : 'Renda adicionada com sucesso!';
+
+        Alert.alert('Sucesso', message);
         setNomeRenda('');
         setValorRenda('');
+        setRendaRepete(false);
+        setRendaSempre(false);
+        setRendaMeses('');
         loadLancamentos();
-      } else {
-        Alert.alert('❌ Erro', 'Não foi possível adicionar a renda');
+      }else {
+        Alert.alert('Erro', 'Não foi possível adicionar a renda');
       }
-    } catch (error) {
+    } catch (error){
       console.error('Erro ao adicionar renda:', error);
-      Alert.alert('❌ Erro', 'Ocorreu um erro ao adicionar renda');
+      Alert.alert('Erro', 'Ocorreu um erro ao adicionar renda');
     }
   };
 
   const handleAddDespesa = async () => {
-    if (!validarInputs(nomeDespesa, valorDespesa)) return;
+  if (!validarInputs(nomeDespesa, valorDespesa)) return;
 
-    try {
-      const hoje = new Date().toISOString().split('T')[0];
-      const success = await addLancamento({
-        nome: nomeDespesa,
-        valor: parseFloat(valorDespesa),
-        tipo: 'despesa',
-        data: hoje
-      });
+  if (despesaRepete && !despesaSempre && !despesaMeses.trim()) {
+    Alert.alert('❌ Erro', 'Por favor, especifique a duração da repetição');
+    return;
+  }
 
-      if (success) {
-        Alert.alert('✅ Sucesso', 'Despesa adicionada com sucesso!');
-        setNomeDespesa('');
-        setValorDespesa('');
-        loadLancamentos();
-      } else {
-        Alert.alert('❌ Erro', 'Não foi possível adicionar a despesa');
-      }
-    } catch (error) {
-      console.error('Erro ao adicionar despesa:', error);
-      Alert.alert('❌ Erro', 'Ocorreu um erro ao adicionar despesa');
+  try {
+    const repeteData = {
+      repete: despesaRepete,
+      sempre: despesaSempre,
+      meses: parseInt(despesaMeses) || 0
+    };
+
+    const success = await addLancamentosRepetidos(nomeDespesa, valorDespesa, 'despesa', repeteData);
+
+    if (success) {
+      const mensagem = despesaRepete 
+        ? (despesaSempre ? 'Despesa adicionada mensalmente (indefinidamente)!' : `Despesa adicionada por ${despesaMeses} meses!`)
+        : 'Despesa adicionada com sucesso!';
+      Alert.alert('✅ Sucesso', mensagem);
+      setNomeDespesa('');
+      setValorDespesa('');
+      setDespesaRepete(false);
+      setDespesaSempre(false);
+      setDespesaMeses('');
+      loadLancamentos();
+    } else {
+      Alert.alert('❌ Erro', 'Não foi possível adicionar a despesa');
     }
-  };
+  } catch (error) {
+    console.error('Erro ao adicionar despesa:', error);
+    Alert.alert('❌ Erro', 'Ocorreu um erro ao adicionar despesa');
+  }
+};
 
   const handleDelete = (id, nome, valor, tipo) => {
     Alert.alert(
@@ -288,6 +386,61 @@ export default function RelatorioScreen() {
             onChangeText={setValorRenda}
             keyboardType="decimal-pad"
           />
+
+          {/*  Checkbox Repete */}
+          <View style={relatorioStyles.checkboxContainer}>
+            <TouchableOpacity 
+              style={relatorioStyles.checkboxWrapper}
+              onPress={() => setRendaRepete(!rendaRepete)}
+            >
+              <View style={[
+                relatorioStyles.checkbox,
+                rendaRepete && relatorioStyles.checkboxChecked
+              ]}>
+                {rendaRepete && <Text style={relatorioStyles.checkmarkText}>✓</Text>}
+              </View>
+              <Text style={relatorioStyles.checkboxLabel}>Esta renda se repete?</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/*  Opções de Repetição */}
+          {rendaRepete && (
+            <View style={relatorioStyles.repeteOptionsContainer}>
+              {/* Checkbox Repete Sempre */}
+              <TouchableOpacity 
+                style={relatorioStyles.checkboxWrapper}
+                onPress={() => {
+                  setRendaSempre(!rendaSempre);
+                  if (!rendaSempre) setRendaMeses(''); // Limpa meses se marcar sempre
+                }}
+              >
+                <View style={[
+                  relatorioStyles.checkbox,
+                  rendaSempre && relatorioStyles.checkboxChecked
+                ]}>
+                  {rendaSempre && <Text style={relatorioStyles.checkmarkText}>✓</Text>}
+                </View>
+                <Text style={relatorioStyles.checkboxLabel}>Repete sempre</Text>
+              </TouchableOpacity>
+
+              {/* Input Repete Durante X Meses */}
+              {!rendaSempre && (
+                <View style={relatorioStyles.mesesContainer}>
+                  <Text style={relatorioStyles.mesesLabel}>Repete durante:</Text>
+                  <TextInput
+                    style={relatorioStyles.inputMeses}
+                    placeholder="0"
+                    placeholderTextColor="#999"
+                    value={rendaMeses}
+                    onChangeText={setRendaMeses}
+                    keyboardType="number-pad"
+                  />
+                  <Text style={relatorioStyles.mesesLabel}>meses</Text>
+                </View>
+              )}
+            </View>
+          )}
+
           <TouchableOpacity
             style={[relatorioStyles.botaoAdicionar, { backgroundColor: colors.success }]}
             onPress={handleAddRenda}
@@ -314,6 +467,61 @@ export default function RelatorioScreen() {
             onChangeText={setValorDespesa}
             keyboardType="decimal-pad"
           />
+
+          {/* Checkbox Repete */}
+          <View style={relatorioStyles.checkboxContainer}>
+            <TouchableOpacity 
+              style={relatorioStyles.checkboxWrapper}
+              onPress={() => setDespesaRepete(!despesaRepete)}
+            >
+              <View style={[
+                relatorioStyles.checkbox,
+                despesaRepete && relatorioStyles.checkboxChecked
+              ]}>
+                {despesaRepete && <Text style={relatorioStyles.checkmarkText}>✓</Text>}
+              </View>
+              <Text style={relatorioStyles.checkboxLabel}>Esta despesa se repete?</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Opções de Repetição */}
+          {despesaRepete && (
+            <View style={relatorioStyles.repeteOptionsContainer}>
+              {/* Checkbox Repete Sempre */}
+              <TouchableOpacity 
+                style={relatorioStyles.checkboxWrapper}
+                onPress={() => {
+                  setDespesaSempre(!despesaSempre);
+                  if (!despesaSempre) setDespesaMeses(''); // Limpa meses se marcar sempre
+                }}
+              >
+                <View style={[
+                  relatorioStyles.checkbox,
+                  despesaSempre && relatorioStyles.checkboxChecked
+                ]}>
+                  {despesaSempre && <Text style={relatorioStyles.checkmarkText}>✓</Text>}
+                </View>
+                <Text style={relatorioStyles.checkboxLabel}>Repete sempre</Text>
+              </TouchableOpacity>
+
+              {/* Input Repete Durante X Meses */}
+              {!despesaSempre && (
+                <View style={relatorioStyles.mesesContainer}>
+                  <Text style={relatorioStyles.mesesLabel}>Repete durante:</Text>
+                  <TextInput
+                    style={relatorioStyles.inputMeses}
+                    placeholder="0"
+                    placeholderTextColor="#999"
+                    value={despesaMeses}
+                    onChangeText={setDespesaMeses}
+                    keyboardType="number-pad"
+                  />
+                  <Text style={relatorioStyles.mesesLabel}>meses</Text>
+                </View>
+              )}
+            </View>
+          )}
+
           <TouchableOpacity
             style={[relatorioStyles.botaoAdicionar, { backgroundColor: colors.error }]}
             onPress={handleAddDespesa}

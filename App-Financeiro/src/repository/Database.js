@@ -11,18 +11,35 @@ const createTables = () => {
         tipo TEXT NOT NULL,
         nome TEXT NOT NULL,
         valor REAL NOT NULL,
-        data TEXT NOT NULL
+        data TEXT NOT NULL,
+        repete INTEGER DEFAULT 0,
+        repete_sempre INTEGER DEFAULT 0,
+        repete_meses INTEGER DEFAULT 0
       );
     `);
     console.log('✅ Tabela lancamentos criada ou já existe.');
+
+    migrarTabela();
   } catch (error) {
     console.error('❌ Erro ao criar tabela lancamentos:', error);
   }
 };
 
+// ========== MIGRAR TABELA ==========
+const migrarTabela = () => {
+  try{
+    db.execSync(`Alter table lancamentos add column repete INTEGER DEFAULT 0;`);
+    console.log('✅ Migração da coluna repete concluída.');
+    db.execSync(`Alter table lancamentos add column repete_sempre INTEGER DEFAULT 0;`);
+    console.log('✅ Migração da coluna repete_sempre concluída.');
+    db.execSync(`Alter table lancamentos add column repete_meses INTEGER DEFAULT 0;`);
+    console.log('✅ Migração da coluna repete_meses concluída.');
+  } catch (error) {
+    console.error('❌ Erro ao migrar tabela lancamentos:', error);
+  }
+};
+
 // ========== BUSCAR LANÇAMENTOS ==========
-// ANTES: getLancamentos(setLancamentos) - callback
-// AGORA: await getLancamentos() - async/await
 const getLancamentos = async () => {
   try {
     const lancamentos = await db.getAllAsync('SELECT * FROM lancamentos ORDER BY data DESC;');
@@ -35,11 +52,18 @@ const getLancamentos = async () => {
 };
 
 // ========== ADICIONAR LANÇAMENTO ==========
-const addLancamento = async (tipo, nome, valor, data) => {
+const addLancamento = async (lancamento) => {
   try {
+    const{ tipo, nome, valor, data, repete = 0, repete_sempre = 0, repete_meses = 0 } = lancamento;
+
+    if (!tipo || !nome || valor === undefined || !data) {
+      console.error('❌ Dados inválidos para adicionar lançamento:', lancamento);
+      return false;
+    }
+
     await db.runAsync(
-      'INSERT INTO lancamentos (tipo, nome, valor, data) VALUES (?, ?, ?, ?);',
-      [tipo, nome, valor, data]
+      'INSERT INTO lancamentos (tipo, nome, valor, data, repete, repete_sempre, repete_meses) VALUES (?, ?, ?, ?, ?, ?, ?);',
+      [tipo, nome, valor, data, repete, repete_sempre, repete_meses]
     );
     console.log('✅ Lançamento adicionado com sucesso.');
     return true;
@@ -62,11 +86,12 @@ const deleteLancamento = async (id) => {
 };
 
 // ========== ATUALIZAR LANÇAMENTO ==========
-const updateLancamento = async (id, tipo, nome, valor, data) => {
+const updateLancamento = async (id, lancamento) => {
   try {
+    const { tipo, nome, valor, data, repete = 0, repete_sempre = 0, repete_meses = 0 } = lancamento;
     await db.runAsync(
-      'UPDATE lancamentos SET tipo = ?, nome = ?, valor = ?, data = ? WHERE id = ?;',
-      [tipo, nome, valor, data, id]
+      'UPDATE lancamentos SET tipo = ?, nome = ?, valor = ?, data = ?, repete = ?, repete_sempre = ?, repete_meses = ? WHERE id = ?;',
+      [tipo, nome, valor, data, repete, repete_sempre, repete_meses, id]
     );
     console.log('✅ Lançamento atualizado com sucesso.');
     return true;

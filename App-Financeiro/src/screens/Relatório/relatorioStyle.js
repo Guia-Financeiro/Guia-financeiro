@@ -56,6 +56,81 @@ botaoAdicionarText: {
   fontWeight: 'bold',
 },
 
+checkboxContainer: {
+  marginBottom: 12,
+},
+
+checkboxWrapper: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 8,
+  paddingVertical: 8,
+},
+
+checkbox: {
+  width: 24,
+  height: 24,
+  borderRadius: 4,
+  borderWidth: 2,
+  borderColor: '#ffffff',
+  marginRight: 12,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'transparent',
+},
+
+checkboxChecked: {
+  backgroundColor: '#4299E1',
+  borderColor: '#4299E1',
+},
+
+checkmarkText: {
+  color: '#ffffff',
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+
+checkboxLabel: {
+  color: '#ffffff',
+  fontSize: 14,
+  fontWeight: '500',
+  flex: 1,
+},
+
+repeteOptionsContainer: {
+  backgroundColor: '#2a2a2a',
+  borderRadius: 8,
+  padding: 12,
+  marginBottom: 12,
+  borderLeftWidth: 3,
+  borderLeftColor: '#4299E1',
+},
+
+mesesContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 12,
+  gap: 8,
+},
+
+mesesLabel: {
+  color: '#ffffff',
+  fontSize: 14,
+  fontWeight: '500',
+},
+
+inputMeses: {
+  backgroundColor: '#1a1a1a',
+  borderRadius: 6,
+  padding: 8,
+  color: '#ffffff',
+  borderWidth: 1,
+  borderColor: '#444444',
+  width: 70,
+  textAlign: 'center',
+  fontSize: 14,
+},
+
   // --- CABEÇALHO ---
   header: {
     backgroundColor: colors.card, // Fundo do cartão (cinza escuro)
@@ -232,15 +307,21 @@ botaoAdicionarText: {
 
   // --- LISTA DE LANÇAMENTOS ---
   listaContainer: {
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  listaTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO
-    marginBottom: 10,
-  },
+  backgroundColor: '#1a1a1a',
+  borderRadius: 12,
+  padding: 16,
+  marginHorizontal: 16,
+  marginBottom: 16,
+  borderWidth: 2,
+  borderColor: '#ffffff',
+},
+
+listaTitle: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#ffffff',
+  marginBottom: 12,
+},
   lancamentoCard: {
     backgroundColor: colors.card,
     borderRadius: 12,
@@ -250,9 +331,10 @@ botaoAdicionarText: {
     paddingHorizontal: 12,
   },
   lancamentoHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+},
   tipoIndicator: {
     width: 6,
     height: '100%',
