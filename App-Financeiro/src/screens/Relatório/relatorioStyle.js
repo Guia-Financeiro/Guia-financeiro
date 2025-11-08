@@ -11,9 +11,50 @@ export const relatorioStyles = StyleSheet.create({
     backgroundColor: colors.background, // Fundo escuro
   },
   scrollContent: {
-    // paddingHorizontal: 20,
-    // Vamos usar padding nos elementos internos
   },
+
+adicionarContainer: {
+  backgroundColor: '#1a1a1a',
+  borderRadius: 12,
+  padding: 16,
+  marginBottom: 16,
+  borderWidth: 2,
+  borderColor: '#ffffff',
+  marginHorizontal: 16,
+},
+
+adicionarTitle: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  color: '#ffffff',
+  marginBottom: 12,
+},
+
+input: {
+  backgroundColor: '#2a2a2a',
+  borderRadius: 8,
+  padding: 12,
+  color: '#ffffff',
+  marginBottom: 10,
+  borderWidth: 1,
+  borderColor: '#444444',
+  fontSize: 14,
+},
+
+botaoAdicionar: {
+  borderRadius: 8,
+  padding: 14,
+  alignItems: 'center',
+  marginTop: 8,
+  borderWidth: 1,
+  borderColor: '#ffffff',
+},
+
+botaoAdicionarText: {
+  color: '#ffffff',
+  fontSize: 14,
+  fontWeight: 'bold',
+},
 
   // --- CABEÇALHO ---
   header: {

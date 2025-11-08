@@ -1,15 +1,20 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, FlatList, Alert, TextInput } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { getLancamentos, getTotalByTipo, getLancamentosByPeriodo, deleteLancamento } from '../../repository/Database';
 import { relatorioStyles } from './relatorioStyle';
 import { colors } from '../../theme/Theme';
+import { addLancamento } from '../../repository/Database';
 
 export default function RelatorioScreen() {
   const [lancamentos, setLancamentos] = useState([]);
   const [totalReceitas, setTotalReceitas] = useState(0);
   const [totalDespesas, setTotalDespesas] = useState(0);
   const [periodoSelecionado, setPeriodoSelecionado] = useState('todos');
+  const [nomeRenda, setNomeRenda] = useState('');
+  const [valorRenda, setValorRenda] = useState('');
+  const [nomeDespesa, setNomeDespesa] = useState('');
+  const [valorDespesa, setValorDespesa] = useState('');
 
   useFocusEffect(
     useCallback(() => {
@@ -59,6 +64,70 @@ export default function RelatorioScreen() {
     
     setTotalReceitas(receitas);
     setTotalDespesas(despesas);
+  };
+
+  const validarInputs = (nome, valor) => {
+    if (!nome.trim()) {
+      Alert.alert(' Erro', 'Por favor, insira uma descrição');
+      return false;
+    }
+    if (!valor.trim() || isNaN(parseFloat(valor))) {
+      Alert.alert(' Erro', 'Por favor, insira um valor numérico válido');
+      return false;
+    }
+    return true;
+  };
+
+  const handleAddRenda = async () => {
+    if (!validarInputs(nomeRenda, valorRenda)) return;
+
+    try {
+      const hoje = new Date().toISOString().split('T')[0];
+      const success = await addLancamento({
+        nome: nomeRenda,
+        valor: parseFloat(valorRenda),
+        tipo: 'receita',
+        data: hoje
+      });
+
+      if (success) {
+        Alert.alert('✅ Sucesso', 'Renda adicionada com sucesso!');
+        setNomeRenda('');
+        setValorRenda('');
+        loadLancamentos();
+      } else {
+        Alert.alert('❌ Erro', 'Não foi possível adicionar a renda');
+      }
+    } catch (error) {
+      console.error('Erro ao adicionar renda:', error);
+      Alert.alert('❌ Erro', 'Ocorreu um erro ao adicionar renda');
+    }
+  };
+
+  const handleAddDespesa = async () => {
+    if (!validarInputs(nomeDespesa, valorDespesa)) return;
+
+    try {
+      const hoje = new Date().toISOString().split('T')[0];
+      const success = await addLancamento({
+        nome: nomeDespesa,
+        valor: parseFloat(valorDespesa),
+        tipo: 'despesa',
+        data: hoje
+      });
+
+      if (success) {
+        Alert.alert('✅ Sucesso', 'Despesa adicionada com sucesso!');
+        setNomeDespesa('');
+        setValorDespesa('');
+        loadLancamentos();
+      } else {
+        Alert.alert('❌ Erro', 'Não foi possível adicionar a despesa');
+      }
+    } catch (error) {
+      console.error('Erro ao adicionar despesa:', error);
+      Alert.alert('❌ Erro', 'Ocorreu um erro ao adicionar despesa');
+    }
   };
 
   const handleDelete = (id, nome, valor, tipo) => {
@@ -199,6 +268,58 @@ export default function RelatorioScreen() {
           <Text style={relatorioStyles.saldoStatus}>
             {saldo >= 0 ? '💰 Positivo' : '⚠️ Negativo'}
           </Text>
+        </View>
+
+        {/* Seção de Adicionar Renda */}
+        <View style={relatorioStyles.adicionarContainer}>
+          <Text style={relatorioStyles.adicionarTitle}>➕ Adicionar Renda</Text>
+          <TextInput
+            style={relatorioStyles.input}
+            placeholder="Descrição (ex: Salário)"
+            placeholderTextColor="#999"
+            value={nomeRenda}
+            onChangeText={setNomeRenda}
+          />
+          <TextInput
+            style={relatorioStyles.input}
+            placeholder="Valor (ex: 2500.00)"
+            placeholderTextColor="#999"
+            value={valorRenda}
+            onChangeText={setValorRenda}
+            keyboardType="decimal-pad"
+          />
+          <TouchableOpacity
+            style={[relatorioStyles.botaoAdicionar, { backgroundColor: colors.success }]}
+            onPress={handleAddRenda}
+          >
+            <Text style={relatorioStyles.botaoAdicionarText}>💰 Adicionar Renda</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Seção de Adicionar Despesa */}
+        <View style={relatorioStyles.adicionarContainer}>
+          <Text style={relatorioStyles.adicionarTitle}>➕ Adicionar Despesa</Text>
+          <TextInput
+            style={relatorioStyles.input}
+            placeholder="Descrição (ex: Alimentação)"
+            placeholderTextColor="#999"
+            value={nomeDespesa}
+            onChangeText={setNomeDespesa}
+          />
+          <TextInput
+            style={relatorioStyles.input}
+            placeholder="Valor (ex: 150.00)"
+            placeholderTextColor="#999"
+            value={valorDespesa}
+            onChangeText={setValorDespesa}
+            keyboardType="decimal-pad"
+          />
+          <TouchableOpacity
+            style={[relatorioStyles.botaoAdicionar, { backgroundColor: colors.error }]}
+            onPress={handleAddDespesa}
+          >
+            <Text style={relatorioStyles.botaoAdicionarText}>💸 Adicionar Despesa</Text>
+          </TouchableOpacity>
         </View>
 
         {/* Análise de Comprometimento */}
