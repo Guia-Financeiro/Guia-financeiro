@@ -51,6 +51,7 @@ const getLancamentos = async () => {
   }
 };
 
+
 // ========== ADICIONAR LANÇAMENTO ==========
 const addLancamento = async (lancamento) => {
   try {
@@ -115,6 +116,26 @@ const getTotalByTipo = async (tipo) => {
   }
 };
 
+// ========== BUSCAR TOTAL POR TIPO E PERIODO ==========
+
+const getTotalByTipoAndPeriodo = async (tipo, dataInicio, dataFim) => {
+  try {
+    console.log(`📊 Buscando ${tipo} entre ${dataInicio} e ${dataFim}`);
+    
+    const result = await db.getFirstAsync(
+      'SELECT COALESCE(SUM(valor), 0) as total FROM lancamentos WHERE tipo = ? AND data BETWEEN ? AND ?;',
+      [tipo, dataInicio, dataFim]
+    );
+
+    const total = result?.total || 0;
+    console.log(`✅ Total de ${tipo} no período:`, total);
+    return parseFloat(total) || 0;
+  } catch (error) {
+    console.error('❌ Erro ao calcular total por período:', error);
+    return 0;
+  }
+};
+
 // ========== BUSCAR LANÇAMENTOS POR PERÍODO ==========
 const getLancamentosByPeriodo = async (dataInicio, dataFim) => {
   try {
@@ -139,5 +160,6 @@ export {
   deleteLancamento,
   updateLancamento,
   getTotalByTipo,
-  getLancamentosByPeriodo
+  getLancamentosByPeriodo,
+  getTotalByTipoAndPeriodo
 };

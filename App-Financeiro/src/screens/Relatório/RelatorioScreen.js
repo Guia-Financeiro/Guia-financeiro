@@ -615,7 +615,7 @@ export default function RelatorioScreen() {
               <Text style={relatorioStyles.emptyText}>📭</Text>
               <Text style={relatorioStyles.emptyTitle}>Nenhum lançamento</Text>
               <Text style={relatorioStyles.emptySubtitle}>
-                Vá em "Calcular Gastos" para adicionar
+                Adicione uma receita ou despesa para visualizar seus lançamentos
               </Text>
             </View>
           )}
