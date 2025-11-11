@@ -221,10 +221,13 @@ export const gastosStyles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: colors.borderColor,
     backgroundColor: colors.card,
+    flexWrap: 'wrap',
+    gap: 10,
   },
   comprometimentoLabel: {
     fontSize: 16,
     color: colors.textBody,
+    flexShrink: 1,
   },
   comprometimentoValor: {
     fontSize: 24,
@@ -235,6 +238,7 @@ export const gastosStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginLeft: 10,
+    flexShrink: 1,
   },
 
   // ---- Seleção para Salvar ----

@@ -12,6 +12,9 @@ export default function RelatorioScreen() {
   const [totalDespesas, setTotalDespesas] = useState(0);
   const [periodoSelecionado, setPeriodoSelecionado] = useState('todos');
 
+  const [anoSelecionado, setAnoSelecionado] = useState(new Date().getFullYear());
+  const [anosDisponiveis, setAnosDisponiveis] = useState([]);
+
     //renda
   const [nomeRenda, setNomeRenda] = useState('');
   const [valorRenda, setValorRenda] = useState('');
@@ -25,18 +28,35 @@ export default function RelatorioScreen() {
   const [despesaRepete, setDespesaRepete] = useState(false);
   const [despesaSempre, setDespesaSempre] = useState(false);
   const [despesaMeses, setDespesaMeses] = useState('');
+
   useFocusEffect(
     useCallback(() => {
       loadLancamentos();
-    }, [periodoSelecionado])
+    }, [periodoSelecionado, anoSelecionado])
   );
+
+  const extrairAnosDisponiveis = (data) => {
+    const anos = new Set();
+    data.forEach(item => {
+      const ano = new Date(item.data + 'T00:00:00').getFullYear();
+      anos.add(ano);
+    });
+    return Array.from(anos).sort((a,b) => a - b);
+  };
+
 
   const loadLancamentos = async () => {
     try {
       let data;
       
       if (periodoSelecionado === 'todos') {
-        data = await getLancamentos();
+        const todosDados = await getLancamentos();
+        data = todosDados.filter(item => {
+          const ano = new Date(item.data + 'T00:00:00').getFullYear();
+          return ano === anoSelecionado;
+        });
+        const anos = extrairAnosDisponiveis(todosDados);
+        setAnosDisponiveis(anos);
       } else if (periodoSelecionado === 'mesAnterior') {
         const hoje = new Date();
         const inicio = new Date(hoje.getFullYear(), hoje.getMonth() - 1, 1);
@@ -296,6 +316,25 @@ export default function RelatorioScreen() {
     </TouchableOpacity>
   );
 
+  const renderAnoButton = (ano) => (
+    <TouchableOpacity
+      key={ano}
+      style={[
+        relatorioStyles.anoButton,
+        anoSelecionado === ano && relatorioStyles.anoButtonActive
+      ]}
+      onPress={() => setAnoSelecionado(ano)}
+      >
+      
+      <Text style={[
+        relatorioStyles.anoButtonText,
+        anoSelecionado === ano && relatorioStyles.anoButtonTextActive
+      ]}>{ano}
+      </Text>
+
+    </TouchableOpacity>
+  )
+
   const renderLancamento = ({ item }) => (
     <View style={relatorioStyles.lancamento}>
       <View style={relatorioStyles.lancamentoHeader}>
@@ -342,7 +381,22 @@ export default function RelatorioScreen() {
         </View>
       </View>
 
+
       <ScrollView style={relatorioStyles.scrollContent}>
+        {/* Filtro de Ano */}
+      {periodoSelecionado === 'todos' && anosDisponiveis.length > 0 && (
+        <View style = {relatorioStyles.anoFilterCard}>
+          <Text style={relatorioStyles.anoFilterLabel}>Ano:</Text>
+          <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          style={relatorioStyles.anoButtonScroll}
+          >
+            {anosDisponiveis.map(ano => renderAnoButton(ano))}
+          </ScrollView>
+        </View>
+      )}
+
         {/* Cards de Resumo */}
         <View style={relatorioStyles.resumoContainer}>
           <View style={[relatorioStyles.resumoCard, relatorioStyles.receitaCard]}>

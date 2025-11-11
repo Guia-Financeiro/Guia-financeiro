@@ -1,6 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-// (Ajuste o caminho se o seu theme.js estiver noutro local)
-import { colors } from '../../theme/Theme'; 
+import { colors } from '../../theme/Theme';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -8,148 +7,147 @@ export const relatorioStyles = StyleSheet.create({
   // --- GERAL ---
   container: {
     flex: 1,
-    backgroundColor: colors.background, // Fundo escuro
+    backgroundColor: colors.background,
   },
   scrollContent: {
   },
 
-adicionarContainer: {
-  backgroundColor: '#1a1a1a',
-  borderRadius: 12,
-  padding: 16,
-  marginBottom: 16,
-  borderWidth: 2,
-  borderColor: '#ffffff',
-  marginHorizontal: 16,
-},
+  adicionarContainer: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.borderColor,
+    marginHorizontal: 16,
+  },
 
-adicionarTitle: {
-  fontSize: 16,
-  fontWeight: 'bold',
-  color: '#ffffff',
-  marginBottom: 12,
-},
+  adicionarTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.textTitle,
+    marginBottom: 12,
+  },
 
-input: {
-  backgroundColor: '#2a2a2a',
-  borderRadius: 8,
-  padding: 12,
-  color: '#ffffff',
-  marginBottom: 10,
-  borderWidth: 1,
-  borderColor: '#444444',
-  fontSize: 14,
-},
+  input: {
+    backgroundColor: colors.card,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textBody,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    fontSize: 14,
+  },
 
-botaoAdicionar: {
-  borderRadius: 8,
-  padding: 14,
-  alignItems: 'center',
-  marginTop: 8,
-  borderWidth: 1,
-  borderColor: '#ffffff',
-},
+  botaoAdicionar: {
+    borderRadius: 8,
+    padding: 14,
+    alignItems: 'center',
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+  },
 
-botaoAdicionarText: {
-  color: '#ffffff',
-  fontSize: 14,
-  fontWeight: 'bold',
-},
+  botaoAdicionarText: {
+    color: colors.textTitle,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 
-checkboxContainer: {
-  marginBottom: 12,
-},
+  checkboxContainer: {
+    marginBottom: 12,
+  },
 
-checkboxWrapper: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginBottom: 8,
-  paddingVertical: 8,
-},
+  checkboxWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+    paddingVertical: 8,
+  },
 
-checkbox: {
-  width: 24,
-  height: 24,
-  borderRadius: 4,
-  borderWidth: 2,
-  borderColor: '#ffffff',
-  marginRight: 12,
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'transparent',
-},
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: colors.borderColor,
+    marginRight: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
 
-checkboxChecked: {
-  backgroundColor: '#4299E1',
-  borderColor: '#4299E1',
-},
+  checkboxChecked: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
 
-checkmarkText: {
-  color: '#ffffff',
-  fontSize: 16,
-  fontWeight: 'bold',
-},
+  checkmarkText: {
+    color: colors.textBody,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 
-checkboxLabel: {
-  color: '#ffffff',
-  fontSize: 14,
-  fontWeight: '500',
-  flex: 1,
-},
+  checkboxLabel: {
+    color: colors.textBody,
+    fontSize: 14,
+    fontWeight: '500',
+    flex: 1,
+  },
 
-repeteOptionsContainer: {
-  backgroundColor: '#2a2a2a',
-  borderRadius: 8,
-  padding: 12,
-  marginBottom: 12,
-  borderLeftWidth: 3,
-  borderLeftColor: '#4299E1',
-},
+  repeteOptionsContainer: {
+    backgroundColor: colors.card,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.primary,
+  },
 
-mesesContainer: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: 12,
-  gap: 8,
-},
+  mesesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    gap: 8,
+  },
 
-mesesLabel: {
-  color: '#ffffff',
-  fontSize: 14,
-  fontWeight: '500',
-},
+  mesesLabel: {
+    color: colors.textBody,
+    fontSize: 14,
+    fontWeight: '500',
+  },
 
-inputMeses: {
-  backgroundColor: '#1a1a1a',
-  borderRadius: 6,
-  padding: 8,
-  color: '#ffffff',
-  borderWidth: 1,
-  borderColor: '#444444',
-  width: 70,
-  textAlign: 'center',
-  fontSize: 14,
-},
+  inputMeses: {
+    backgroundColor: colors.card,
+    borderRadius: 6,
+    padding: 8,
+    color: colors.textBody,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    width: 70,
+    textAlign: 'center',
+    fontSize: 14,
+  },
 
   // --- CABEÇALHO ---
   header: {
-    backgroundColor: colors.card, // Fundo do cartão (cinza escuro)
     padding: 20,
-    paddingTop: 30, // Mais espaço no topo
+    paddingTop: 30,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO para branco
+    color: colors.textTitle,
     textAlign: 'center',
     marginBottom: 20,
   },
   periodoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: colors.background, // Fundo mais escuro
+    backgroundColor: colors.background,
     borderRadius: 10,
   },
   periodoButton: {
@@ -158,15 +156,15 @@ inputMeses: {
     borderRadius: 8,
   },
   periodoButtonActive: {
-    backgroundColor: colors.primary, // Azul
+    backgroundColor: colors.primary,
   },
   periodoButtonText: {
-    color: colors.grey, // Cinza claro
+    color: colors.grey,
     textAlign: 'center',
     fontWeight: 'bold',
   },
   periodoButtonTextActive: {
-    color: colors.textTitle, // Branco
+    color: colors.textTitle,
   },
 
   // --- RESUMO (Receita/Despesa) ---
@@ -178,9 +176,13 @@ inputMeses: {
   },
   resumoCard: {
     flex: 1,
-    padding: 15,
-    borderRadius: 12,
     backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.borderColor,
+    marginHorizontal: 16,
   },
   receitaCard: {
     marginRight: 10,
@@ -190,18 +192,19 @@ inputMeses: {
   },
   resumoLabel: {
     fontSize: 14,
-    color: colors.textBody, // <-- CORRIGIDO para cinza claro
+    color: colors.textBody,
     marginBottom: 5,
+    borderColor: colors.borderColor,
   },
   resumoValor: {
     fontSize: 22,
     fontWeight: 'bold',
   },
   receitaColor: {
-    color: colors.success, // Verde
+    color: colors.success,
   },
   despesaColor: {
-    color: colors.error, // Vermelho
+    color: colors.error, 
   },
 
   // --- SALDO ---
@@ -215,7 +218,7 @@ inputMeses: {
   },
   saldoLabel: {
     fontSize: 16,
-    color: colors.textBody, // <-- CORRIGIDO
+    color: colors.textBody,
   },
   saldoValor: {
     fontSize: 32,
@@ -224,21 +227,23 @@ inputMeses: {
   saldoStatus: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: colors.textBody, // <-- CORRIGIDO
+    color: colors.textBody,
   },
 
   // --- ANÁLISE ---
   analiseCard: {
     backgroundColor: colors.card,
-    padding: 20,
     borderRadius: 12,
-    marginHorizontal: 20,
-    marginTop: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.borderColor,
+    marginHorizontal: 16,
   },
   analiseTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO
+    color: colors.textTitle,
     marginBottom: 15,
   },
   percentualContainer: {
@@ -249,7 +254,7 @@ inputMeses: {
   },
   percentualLabel: {
     fontSize: 16,
-    color: colors.textBody, // <-- CORRIGIDO
+    color: colors.textBody,
   },
   percentualValor: {
     fontSize: 24,
@@ -261,7 +266,7 @@ inputMeses: {
   },
   barraBackground: {
     height: 10,
-    backgroundColor: colors.background, // Fundo da barra
+    backgroundColor: colors.background,
     borderRadius: 5,
     overflow: 'hidden',
   },
@@ -288,7 +293,7 @@ inputMeses: {
     marginTop: 15,
     paddingTop: 15,
     borderTopWidth: 1,
-    borderTopColor: colors.borderColor, // Linha divisória
+    borderTopColor: colors.borderColor,
   },
   detalhamentoRow: {
     flexDirection: 'row',
@@ -297,31 +302,33 @@ inputMeses: {
   },
   detalhamentoLabel: {
     fontSize: 14,
-    color: colors.textBody, // <-- CORRIGIDO
+    color: colors.textBody,
   },
   detalhamentoValor: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO
+    color: colors.textTitle, 
   },
 
   // --- LISTA DE LANÇAMENTOS ---
   listaContainer: {
-  backgroundColor: '#1a1a1a',
-  borderRadius: 12,
-  padding: 16,
-  marginHorizontal: 16,
-  marginBottom: 16,
-  borderWidth: 2,
-  borderColor: '#ffffff',
-},
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 16,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderWidth: 2,
+    borderColor: colors.borderColor,
+  },
 
-listaTitle: {
-  fontSize: 16,
-  fontWeight: 'bold',
-  color: '#ffffff',
-  marginBottom: 12,
-},
+
+
+  listaTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: colors.textTitle,
+    marginBottom: 12,
+  },
   lancamentoCard: {
     backgroundColor: colors.card,
     borderRadius: 12,
@@ -331,10 +338,52 @@ listaTitle: {
     paddingHorizontal: 12,
   },
   lancamentoHeader: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  anoFilterCard: {
+  marginHorizontal: 16,
+  marginTop: 16,
+  marginBottom: 10,
+  backgroundColor: colors.card,
+  borderRadius: 12,
+  borderWidth: 1,
+  borderColor: colors.borderColor,
+  padding: 16,
 },
+
+  anoFilterLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textBody,
+    marginBottom: 8,
+  },
+
+  anoButtonScroll: {
+    flexGrow: 0,
+  },
+
+  anoButton: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 6,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  anoButtonActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  anoButtonText: {
+    color: colors.textBody
+  },
   tipoIndicator: {
     width: 6,
     height: '100%',
@@ -347,11 +396,11 @@ listaTitle: {
   lancamentoNome: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO
+    color: colors.textTitle,
   },
   lancamentoData: {
     fontSize: 12,
-    color: colors.grey, // Cinza claro
+    color: colors.grey,
   },
   lancamentoValorContainer: {
     padding: 15,
@@ -369,7 +418,7 @@ listaTitle: {
   deleteButtonText: {
     fontSize: 16,
   },
-  
+
   // --- LISTA VAZIA ---
   emptyContainer: {
     backgroundColor: colors.card,
@@ -385,12 +434,12 @@ listaTitle: {
   emptyTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- CORRIGIDO
+    color: colors.textTitle,
     marginBottom: 5,
   },
   emptySubtitle: {
     fontSize: 14,
-    color: colors.textBody, // <-- CORRIGIDO
+    color: colors.textBody,
     textAlign: 'center',
   },
 });

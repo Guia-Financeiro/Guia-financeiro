@@ -18,24 +18,8 @@ const createTables = () => {
       );
     `);
     console.log('✅ Tabela lancamentos criada ou já existe.');
-
-    migrarTabela();
   } catch (error) {
     console.error('❌ Erro ao criar tabela lancamentos:', error);
-  }
-};
-
-// ========== MIGRAR TABELA ==========
-const migrarTabela = () => {
-  try{
-    db.execSync(`Alter table lancamentos add column repete INTEGER DEFAULT 0;`);
-    console.log('✅ Migração da coluna repete concluída.');
-    db.execSync(`Alter table lancamentos add column repete_sempre INTEGER DEFAULT 0;`);
-    console.log('✅ Migração da coluna repete_sempre concluída.');
-    db.execSync(`Alter table lancamentos add column repete_meses INTEGER DEFAULT 0;`);
-    console.log('✅ Migração da coluna repete_meses concluída.');
-  } catch (error) {
-    console.error('❌ Erro ao migrar tabela lancamentos:', error);
   }
 };
 
