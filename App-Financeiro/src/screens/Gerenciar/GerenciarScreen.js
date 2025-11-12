@@ -50,21 +50,33 @@ export default function GerenciarScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      loadLancamentos();
-    }, [])
+      loadLancamentos(filtroTipo);
+    }, [filtroTipo])
   );
 
-  const loadLancamentos = async () => {
+  const loadLancamentos = useCallback(async (tipoFiltro = filtroTipo) => {
     try {
       const dados = await getLancamentos();
       setTodosLancamentos(dados || []);
-      aplicarFiltros(dados || [], 1, 'todos');
       setPaginaAtual(1);
+      setIsSelectMode(false);
+      setSelectedItems(new Set());
+      
+      // Aplicar filtros com o tipo passado como parâmetro
+      let filtrados = dados || [];
+      if (tipoFiltro !== 'todos') {
+        filtrados = filtrados.filter(item => item.tipo === tipoFiltro);
+      }
+      
+      filtrados = filtrados.sort((a, b) => new Date(b.data) - new Date(a.data));
+      
+      const paginada = filtrados.slice(0, ITEMS_PER_PAGE);
+      setLancamentosExibidos(paginada);
     } catch (error) {
       console.error('Erro ao carregar lançamentos:', error);
       Alert.alert('❌ Erro', 'Não foi possível carregar os lançamentos');
     }
-  };
+  }, [filtroTipo]);
 
   const aplicarFiltros = (dados, pagina = 1, tipo = filtroTipo) => {
     let filtrados = dados;
@@ -86,7 +98,16 @@ export default function GerenciarScreen() {
 
   const handleChangeFilter = (tipo) => {
     setFiltroTipo(tipo);
-    aplicarFiltros(todosLancamentos, 1, tipo);
+    // Chama aplicarFiltros com os dados atuais
+    let filtrados = todosLancamentos;
+    if (tipo !== 'todos') {
+      filtrados = filtrados.filter(item => item.tipo === tipo);
+    }
+    filtrados = filtrados.sort((a, b) => new Date(b.data) - new Date(a.data));
+    const paginada = filtrados.slice(0, ITEMS_PER_PAGE);
+    setLancamentosExibidos(paginada);
+    setPaginaAtual(1);
+    setSelectedItems(new Set());
   };
 
   const toggleSelectItem = (id) => {
@@ -394,6 +415,7 @@ export default function GerenciarScreen() {
           toggleSelectItem(item.id);
         }
       }}
+      activeOpacity={0.7}
     >
       {isSelectMode && (
         <View style={gerenciarStyles.checkboxWrapper}>
@@ -408,7 +430,7 @@ export default function GerenciarScreen() {
         </View>
       )}
 
-      <View style={gerenciarStyles.itemContent}>
+      <View style={[gerenciarStyles.itemContent, !isSelectMode && { flex: 1, width: '100%' }]}>
         <View style={gerenciarStyles.itemHeader}>
           <View style={[
             gerenciarStyles.tipoIndicator,
@@ -713,6 +735,7 @@ export default function GerenciarScreen() {
             onPress={() => {
               setIsSelectMode(false);
               setSelectedItems(new Set());
+              loadLancamentos(filtroTipo);
             }}
           >
             <Text style={gerenciarStyles.cancelText}>✕</Text>
@@ -737,9 +760,11 @@ export default function GerenciarScreen() {
       {/* Lista */}
       <FlatList
         data={lancamentosExibidos}
+        key={`${isSelectMode}-${[...selectedItems].join(',')}`}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderLancamento}
         contentContainerStyle={gerenciarStyles.listContent}
+        extraData={{ isSelectMode, selectedItems }}
         ListEmptyComponent={
           <View style={gerenciarStyles.emptyContainer}>
             <Text style={gerenciarStyles.emptyText}>📭</Text>
