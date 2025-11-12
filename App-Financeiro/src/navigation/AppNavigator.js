@@ -6,6 +6,7 @@ import HomeScreen from '../screens/Home/HomeScreen';
 import CalculoGastosScreen from '../screens/Gastos/CalculoGastosScreen';
 import SobreScreen from '../screens/Sobre/SobreScreen';
 import RelatorioScreen from '../screens/Relatório/RelatorioScreen';
+import GerenciarScreen from '../screens/Gerenciar/GerenciarScreen';
 
 const Drawer = createDrawerNavigator();
 const corFundoEscuro = '#333333';
@@ -19,16 +20,16 @@ const AppNavigator = () => {
         initialRouteName="Início"
         screenOptions={{
           headerStyle: {
-            backgroundColor: corFundoEscuro, // Define a cor de fundo do cabeçalho
+            backgroundColor: corFundoEscuro, 
           },
-          headerTintColor: corTextoEscuro, // Define a cor do texto e do ícone (menu)
+          headerTintColor: corTextoEscuro, 
           
-          // Estilo do Menu Lateral (quando ele abre)
+          
           drawerStyle: {
-            backgroundColor: corFundoEscuro, // Cor de fundo do menu
+            backgroundColor: corFundoEscuro, 
           },
-          drawerActiveTintColor: corTextoEscuro, // Cor do item de menu ativo
-          drawerInactiveTintColor: corInativa, // Cor dos itens inativos
+          drawerActiveTintColor: corTextoEscuro, 
+          drawerInactiveTintColor: corInativa, 
         }}
       >
         <Drawer.Screen 
@@ -50,6 +51,13 @@ const AppNavigator = () => {
           component={RelatorioScreen}
           options={{
             drawerIcon: ({ color }) => <Text style={{ fontSize: 20 }}>📊</Text>,
+          }}
+        />
+        <Drawer.Screen 
+          name="Gerenciar Lançamentos" 
+          component={GerenciarScreen}
+          options={{
+            drawerIcon: ({ color }) => <Text style={{ fontSize: 20 }}>📋</Text>,
           }}
         />
         <Drawer.Screen 

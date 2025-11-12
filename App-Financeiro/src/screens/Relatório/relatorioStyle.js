@@ -8,6 +8,7 @@ export const relatorioStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    overflow: 'visible',
   },
   scrollContent: {
   },
@@ -204,7 +205,7 @@ export const relatorioStyles = StyleSheet.create({
     color: colors.success,
   },
   despesaColor: {
-    color: colors.error, 
+    color: colors.error,
   },
 
   // --- SALDO ---
@@ -307,7 +308,7 @@ export const relatorioStyles = StyleSheet.create({
   detalhamentoValor: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: colors.textTitle, 
+    color: colors.textTitle,
   },
 
   // --- LISTA DE LANÇAMENTOS ---
@@ -344,15 +345,15 @@ export const relatorioStyles = StyleSheet.create({
   },
 
   anoFilterCard: {
-  marginHorizontal: 16,
-  marginTop: 16,
-  marginBottom: 10,
-  backgroundColor: colors.card,
-  borderRadius: 12,
-  borderWidth: 1,
-  borderColor: colors.borderColor,
-  padding: 16,
-},
+    marginHorizontal: 16,
+    marginTop: 16,
+    marginBottom: 10,
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    padding: 16,
+  },
 
   anoFilterLabel: {
     fontSize: 14,
@@ -441,5 +442,313 @@ export const relatorioStyles = StyleSheet.create({
     fontSize: 14,
     color: colors.textBody,
     textAlign: 'center',
+  },
+  modalContent: {
+    backgroundColor: colors.background,
+    flex: 1,
+    paddingTop: 50,
+    paddingBottom: 50,
+  },
+
+  filtroDropdownContainer: {
+    backgroundColor: colors.card,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    zIndex: 1000,
+    overflow: 'visible',
+    marginBottom: 0
+  },
+  filtroDropdownTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.textTitle,
+    marginBottom: 12,
+  },
+  dropdownsRow: {
+    flexDirection: 'row',
+    gap: 12,
+    justifyContent: 'space-between',
+    zIndex: 1000,
+    width: '100%',
+    overflow: 'visible',
+  },
+  dropdownWrapper: {
+    flex: 1,
+    zIndex: 1000,
+    minWidth: 0,
+    overflow: 'visible',
+  },
+  dropdown: {
+    backgroundColor: colors.background,
+    borderColor: colors.borderColor,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    minHeight: 44,
+    zIndex: 1000,
+    width: '100%',
+  },
+  dropdownText: {
+    fontSize: 14,
+    color: colors.textTitle,
+    fontWeight: '500',
+  },
+  dropdownContainer: {
+    backgroundColor: colors.card,
+    borderColor: colors.borderColor,
+    borderWidth: 1,
+    borderRadius: 8,
+    maxHeight: 475,
+    zIndex: 1000,
+    overflow: 'visible',
+  },
+  dropdownLabel: {
+    fontSize: 13,
+    color: colors.textBody,
+  },
+  selectionBar: {
+    backgroundColor: colors.primary + '20',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+
+  selectionButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: colors.primary,
+    borderRadius: 6,
+  },
+
+  selectionButtonText: {
+    color: colors.textTitle,
+    fontWeight: '600',
+    fontSize: 12,
+  },
+
+  cancelButton: {
+    backgroundColor: colors.error,
+  },
+
+  selectionCount: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: colors.textTitle,
+  },
+
+  actionBar: {
+    backgroundColor: colors.error + '20',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+
+  deleteMultipleButton: {
+    backgroundColor: colors.error,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+
+  deleteMultipleButtonText: {
+    color: colors.textTitle,
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+
+  lancamentoSelecionado: {
+    backgroundColor: colors.primary + '20',
+    borderLeftWidth: 4,
+    borderLeftColor: colors.primary,
+  },
+
+  lancamento: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    marginBottom: 10,
+    overflow: 'hidden',
+    paddingVertical: 15,
+    paddingHorizontal: 12,
+  },
+
+  lancamentoHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  botoesAdicionarContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginBottom: 12,
+  },
+
+  botaoAdicionarRapido: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+
+  botaoAdicionarRapidoText: {
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-end',
+  },
+
+  modalContent: {
+    backgroundColor: colors.card,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '90%',
+    paddingBottom: 20,
+  },
+
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+  },
+
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.textTitle,
+  },
+
+  modalCloseButton: {
+    fontSize: 24,
+    color: colors.textBody,
+    fontWeight: 'bold',
+  },
+
+  modalScrollContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+
+  modalSectionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textTitle,
+    marginBottom: 12,
+  },
+
+  dataPickersRow: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 20,
+  },
+
+  dataPickerWrapper: {
+    flex: 1,
+    zIndex: 1000,
+  },
+
+  miniDropdown: {
+    backgroundColor: colors.background,
+    borderColor: colors.borderColor,
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    minHeight: 44,
+  },
+
+  miniDropdownText: {
+    fontSize: 13,
+    color: colors.textTitle,
+    fontWeight: '500',
+  },
+
+  miniDropdownContainer: {
+    backgroundColor: colors.card,
+    borderColor: colors.borderColor,
+    borderWidth: 1,
+    borderRadius: 8,
+    maxHeight: 200,
+  },
+
+  modalLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textTitle,
+    marginBottom: 8,
+    marginTop: 12,
+  },
+
+  modalInput: {
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textBody,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    fontSize: 14,
+  },
+
+  botaoModalAdicionar: {
+    borderRadius: 8,
+    padding: 14,
+    alignItems: 'center',
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+  },
+
+  botaoModalAdicionarText: {
+    color: colors.textTitle,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+
+  anoInputWrapper: {
+    flex: 1,
+  },
+
+  anoInputLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textTitle,
+    marginBottom: 6,
+  },
+
+  anoInput: {
+    backgroundColor: colors.background,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textBody,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+
+  mesDropdownLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: colors.textTitle,
+    marginBottom: 6,
   },
 });

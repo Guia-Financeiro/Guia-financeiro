@@ -9,7 +9,7 @@ const SobreScreen = () => {
       <View style={sobreStyles.container}>
         <Text style={sobreStyles.title}>Sobre o App</Text>
         <Text style={sobreStyles.text}>Este aplicativo foi desenvolvido para auxiliar no controle de finanças pessoais.</Text>
-        <Text style={sobreStyles.text}>Versão 1.0.0</Text>
+        <Text style={sobreStyles.text}>Versão 2.0.0</Text>
       </View>
     </SafeAreaView>
   );
