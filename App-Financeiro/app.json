@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "App-Financeiro",
+    "name": "Fluxo",
     "slug": "App-Financeiro",
-    "version": "1.0.0",
+    "icon": "./assets/logo_fluxo.jpg",
+    "version": "2.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo_fluxo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -28,6 +28,12 @@
     },
     "plugins": [
       "expo-sqlite"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "89208394-2efe-4815-ad97-c41caf6e015d"
+      }
+    },
+    "owner": "gabriel_xavier"
   }
 }

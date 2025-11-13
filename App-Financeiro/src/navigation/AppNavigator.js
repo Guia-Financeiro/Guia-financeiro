@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../screens/Home/HomeScreen';
 import CalculoGastosScreen from '../screens/Gastos/CalculoGastosScreen';
-import SobreScreen from '../screens/Sobre/SobreScreen';
+import ResumoScreen from '../screens/Resumo/ResumoScreen';
 import RelatorioScreen from '../screens/Relatório/RelatorioScreen';
 import GerenciarScreen from '../screens/Gerenciar/GerenciarScreen';
 
@@ -40,6 +40,13 @@ const AppNavigator = () => {
           }}
         />
         <Drawer.Screen 
+          name="Resumo" 
+          component={ResumoScreen}
+          options={{
+            drawerIcon: ({ color }) => <Text style={{ fontSize: 20 }}>ℹ️</Text>,
+          }}
+        />
+        <Drawer.Screen 
           name="Calcular Gastos" 
           component={CalculoGastosScreen}
           options={{
@@ -58,13 +65,6 @@ const AppNavigator = () => {
           component={GerenciarScreen}
           options={{
             drawerIcon: ({ color }) => <Text style={{ fontSize: 20 }}>📋</Text>,
-          }}
-        />
-        <Drawer.Screen 
-          name="Sobre" 
-          component={SobreScreen}
-          options={{
-            drawerIcon: ({ color }) => <Text style={{ fontSize: 20 }}>ℹ️</Text>,
           }}
         />
       </Drawer.Navigator>
