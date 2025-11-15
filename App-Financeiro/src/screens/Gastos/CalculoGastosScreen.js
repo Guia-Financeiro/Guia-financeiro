@@ -4,13 +4,16 @@ import { addLancamento } from '../../repository/Database';
 import { gastosStyles } from './gastosStyle';
 
 const CalculoGastosScreen = ({ navigation }) => {
+  // Estado para armazenar resultado do cálculo
   const [resultado, setResultado] = useState(null);
   
+  // Estados da renda mensal
   const [renda, setRenda] = useState('');
   const [rendaRepete, setRendaRepete] = useState(false);
   const [rendaSempre, setRendaSempre] = useState(false);
   const [rendaMeses, setRendaMeses] = useState('');
 
+  // Estados das despesas
   const [despesas, setDespesas] = useState([{ id: 1, nome: '', valor: '' }]);
   
   // Estados para controlar repetição de CADA despesa
@@ -18,7 +21,7 @@ const CalculoGastosScreen = ({ navigation }) => {
   const [despesaSempre, setDespesaSempre] = useState({});
   const [despesaMeses, setDespesaMeses] = useState({});
   
-  // Estados para controlar o que será salvo
+  // Estados para controlar o que será salvo no banco de dados
   const [salvarRenda, setSalvarRenda] = useState(false);
   const [despesasSelecionadas, setDespesasSelecionadas] = useState({});
 
@@ -53,6 +56,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     setDespesas(newDespesas);
   };
 
+  // Calcula o resultado financeiro (total despesas, saldo e percentual)
   const handleCalcular = () => {
     const rendaNum = parseFloat(renda);
     
@@ -61,11 +65,13 @@ const CalculoGastosScreen = ({ navigation }) => {
       return;
     }
 
+    // Soma todas as despesas
     const totalDespesas = despesas.reduce((acc, item) => {
       const valorNum = parseFloat(item.valor);
       return acc + (isNaN(valorNum) ? 0 : valorNum);
     }, 0);
     
+    // Calcula saldo e percentual de comprometimento
     const saldo = rendaNum - totalDespesas;
     const percentual = (totalDespesas / rendaNum) * 100;
 
@@ -86,7 +92,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     }));
   };
 
-  // Função para adicionar lançamento repetido
+  // Adiciona lançamento ao banco de dados (renda ou despesa) com opção de repetição
   const addLancamentoRepetido = async (nome, valor, tipo, repete, repete_sempre, repete_meses) => {
     try {
       const hoje = new Date();
@@ -131,7 +137,7 @@ const CalculoGastosScreen = ({ navigation }) => {
           }
         }
       } else {
-        // Apenas uma vez
+        // Adiciona apenas uma vez com a data de hoje
         const dataStr = hoje.toISOString().split('T')[0];
         const success = await addLancamento({
           nome: nome,
@@ -166,6 +172,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     setDespesaMeses({});
   };
 
+  // Salva os lançamentos selecionados (renda e/ou despesas) no banco de dados
   const handleSalvarLancamentos = async () => {
     if (!resultado) {
       Alert.alert('Atenção', 'Calcule os gastos antes de salvar!');
@@ -186,7 +193,7 @@ const CalculoGastosScreen = ({ navigation }) => {
       let salvos = 0;
       const itensSalvos = [];
 
-      // Salvar renda com repetição
+      // Salvar renda com repetição (se selecionada)
       if (salvarRenda && renda && parseFloat(renda) > 0) {
         const success = await addLancamentoRepetido(
           'Renda Mensal',
@@ -205,7 +212,7 @@ const CalculoGastosScreen = ({ navigation }) => {
         }
       }
 
-      // Salvar despesas com repetição
+      // Salvar despesas selecionadas com repetição
       for (const despesa of despesas) {
         if (despesasSelecionadas[despesa.id] && despesa.nome && despesa.valor && parseFloat(despesa.valor) > 0) {
           const despesaRepeteValue = despesaRepete[despesa.id] || false;
@@ -231,6 +238,7 @@ const CalculoGastosScreen = ({ navigation }) => {
         }
       }
 
+      // Exibe resultado e oferece opções de navegação
       if (salvos > 0) {
         Alert.alert(
           '✅ Sucesso!', 
@@ -273,6 +281,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     );
   };
 
+  // Retorna status visual do saldo (cores e mensagens)
   const getSaldoStatus = () => {
     if (!resultado) return null;
     const saldo = parseFloat(resultado.saldo);
@@ -281,6 +290,7 @@ const CalculoGastosScreen = ({ navigation }) => {
     return { text: '⚠️ Gastou mais que ganhou!', color: '#E53E3E' };
   };
 
+  // Retorna status visual do comprometimento da renda (cores e mensagens)
   const getPercentualStatus = () => {
     if (!resultado) return null;
     const perc = parseFloat(resultado.percentual);

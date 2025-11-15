@@ -2,13 +2,13 @@
   "expo": {
     "name": "Fluxo",
     "slug": "App-Financeiro",
-    "icon": "./assets/logo_fluxo.jpg",
-    "version": "2.0.0",
+    "icon": "./assets/logo_fluxo.png",
+    "version": "2.0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/logo_fluxo.jpg",
+      "image": "./assets/logo_fluxo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo_fluxo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
@@ -31,9 +31,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "89208394-2efe-4815-ad97-c41caf6e015d"
+        "projectId": "8ed77ad2-1b8c-43fe-9df2-5b6bea244259"
       }
     },
-    "owner": "gabriel_xavier"
+    "owner": "murilo_furtado1"
   }
 }

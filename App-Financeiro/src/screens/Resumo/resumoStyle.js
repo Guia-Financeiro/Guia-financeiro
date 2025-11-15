@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { colors } from '../../theme/Theme';
 
-// 2. EXPORTE OS ESTILOS (usando 'styles' ou 'homeStyles', como preferir)
 export const homeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background, // <-- USANDO O TEMA
+    backgroundColor: colors.background, 
     padding: 20,
   },
   contentContainer: {
@@ -15,11 +14,11 @@ export const homeStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- USANDO O TEMA
+    color: colors.textTitle, 
     marginBottom: 24,
   },
   card: {
-    backgroundColor: colors.card, // <-- USANDO O TEMA
+    backgroundColor: colors.card, 
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
@@ -31,7 +30,7 @@ export const homeStyles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: colors.textBody, // <-- USANDO O TEMA
+    color: colors.textBody, 
     marginBottom: 4,
   },
   value: {
@@ -39,15 +38,15 @@ export const homeStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   receita: {
-    color: colors.success, // <-- USANDO O TEMA
+    color: colors.success, 
   },
   despesa: {
-    color: colors.error, // <-- USANDO O TEMA
+    color: colors.error, 
   },
   subtitle: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: colors.textTitle, // <-- USANDO O TEMA
+    color: colors.textTitle, 
     marginTop: 20,
     marginBottom: 10,
   },
@@ -55,7 +54,7 @@ export const homeStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.card, // <-- USANDO O TEMA
+    backgroundColor: colors.card, 
     padding: 15,
     borderRadius: 8,
     marginBottom: 10,
@@ -74,7 +73,7 @@ export const homeStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    backgroundColor: colors.primary, // <-- USANDO O TEMA
+    backgroundColor: colors.primary, 
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',

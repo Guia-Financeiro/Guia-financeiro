@@ -4,44 +4,43 @@ import { getLancamentosByPeriodo, getTotalByTipo, getTotalByTipoAndPeriodo } fro
 import { useFocusEffect } from '@react-navigation/native';
 import { homeStyles } from './resumoStyle';
 
-
-
+// Tela de resumo financeiro mensal com totais e lançamentos do mês
 export default function ResumoScreen({ navigation }) {
+  // Estados para armazenar totais e lançamentos do mês atual
   const [totalReceitas, setTotalReceitas] = useState(0);
   const [totalDespesas, setTotalDespesas] = useState(0);
   const [lancamentos, setLancamentos] = useState([]);
 
+  // Carrega os dados quando a tela ganha foco
   useFocusEffect(
     useCallback(() => {
       loadData();
     }, [])
   );
 
+  // Busca receitas, despesas e lançamentos do mês atual
   const loadData = async () => {
     try {
-      // Obter data de hoje
+      // Obter datas do mês atual
       const hoje = new Date();
-
-      // Primeiro dia do mês atual
       const primeiroDia = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
       const dataInicio = primeiroDia.toISOString().split('T')[0];
 
-      // Último dia do mês atual
       const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
       const dataFim = ultimoDia.toISOString().split('T')[0];
 
       console.log('📅 Período:', dataInicio, 'até', dataFim);
 
-      // Buscar receitas e despesas do mês atual
+      // Buscar totais de receitas e despesas
       const receitas = await getTotalByTipoAndPeriodo('receita', dataInicio, dataFim);
       const despesas = await getTotalByTipoAndPeriodo('despesa', dataInicio, dataFim);
 
       console.log('💰 Receitas:', receitas, 'Despesas:', despesas);
 
-      // Buscar lançamentos do mês atual
+      // Buscar lançamentos do mês
       const data = await getLancamentosByPeriodo(dataInicio, dataFim);
 
-      // Garantir que são números
+      // Garante que são números válidos
       setTotalReceitas(parseFloat(receitas) || 0);
       setTotalDespesas(parseFloat(despesas) || 0);
       setLancamentos(data || []);
@@ -53,12 +52,14 @@ export default function ResumoScreen({ navigation }) {
     }
   };
 
+  // Calcula o saldo (receitas - despesas)
   const saldo = totalReceitas - totalDespesas;
 
   return (
     <ScrollView style={homeStyles.container} contentContainerStyle={homeStyles.contentContainer}>
       <Text style={homeStyles.title}>Resumo Financeiro</Text>
 
+      {/* Card de Receitas */}
       <View style={homeStyles.card}>
         <Text style={homeStyles.label}>Receitas</Text>
         <Text style={[homeStyles.value, homeStyles.receita]}>
@@ -66,6 +67,7 @@ export default function ResumoScreen({ navigation }) {
         </Text>
       </View>
 
+      {/* Card de Despesas */}
       <View style={homeStyles.card}>
         <Text style={homeStyles.label}>Despesas</Text>
         <Text style={[homeStyles.value, homeStyles.despesa]}>
@@ -73,6 +75,7 @@ export default function ResumoScreen({ navigation }) {
         </Text>
       </View>
 
+      {/* Card de Saldo */}
       <View style={homeStyles.card}>
         <Text style={homeStyles.label}>Saldo</Text>
         <Text style={[homeStyles.value, saldo >= 0 ? homeStyles.receita : homeStyles.despesa]}>
@@ -82,6 +85,7 @@ export default function ResumoScreen({ navigation }) {
 
       <Text style={homeStyles.subtitle}>Lançamentos deste Mês</Text>
 
+      {/* Lista de lançamentos ou mensagem vazia */}
       {lancamentos && lancamentos.length > 0 ? (
         lancamentos.map((item) => (
           <View key={item.id} style={homeStyles.lancamento}>
@@ -104,6 +108,7 @@ export default function ResumoScreen({ navigation }) {
         </View>
       )}
 
+      {/* Botão para navegar para todos os lançamentos */}
       <TouchableOpacity
         style={homeStyles.button}
         onPress={() => navigation.navigate('Relatório')}

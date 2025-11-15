@@ -9,19 +9,22 @@ import DropDownPicker from 'react-native-dropdown-picker';
 const ITEMS_PER_PAGE = 15;
 
 export default function GerenciarScreen() {
+  // Estados principais
   const [todosLancamentos, setTodosLancamentos] = useState([]);
   const [lancamentosExibidos, setLancamentosExibidos] = useState([]);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [selectedItems, setSelectedItems] = useState(new Set());
   const [isSelectMode, setIsSelectMode] = useState(false);
   const [filtroTipo, setFiltroTipo] = useState('todos');
+  
+  // Estados para os modais
   const [modalEditVisible, setModalEditVisible] = useState(false);
   const [modalAdicionarVisible, setModalAdicionarVisible] = useState(false);
   const [lancamentoEmEdicao, setLancamentoEmEdicao] = useState(null);
   const [nomeEditado, setNomeEditado] = useState('');
   const [valorEditado, setValorEditado] = useState('');
 
-  // Estados para adicionar lançamento
+  // Estados para adicionar novo lançamento
   const [tipoLancamento, setTipoLancamento] = useState('receita');
   const [nomeAdicionar, setNomeAdicionar] = useState('');
   const [valorAdicionar, setValorAdicionar] = useState('');
@@ -29,6 +32,8 @@ export default function GerenciarScreen() {
   const [mesAdicionar, setMesAdicionar] = useState(new Date().getMonth());
   const [diaAdicionar, setDiaAdicionar] = useState(new Date().getDate().toString());
   const [openMesAdicionarDropdown, setOpenMesAdicionarDropdown] = useState(false);
+  
+  // Estados para repetição de lançamentos
   const [rendaRepete, setRendaRepete] = useState(false);
   const [rendaSempre, setRendaSempre] = useState(false);
   const [rendaMeses, setRendaMeses] = useState('');
@@ -56,13 +61,14 @@ export default function GerenciarScreen() {
 
   const loadLancamentos = useCallback(async (tipoFiltro = filtroTipo) => {
     try {
+      // Carrega todos os lançamentos do banco de dados
       const dados = await getLancamentos();
       setTodosLancamentos(dados || []);
       setPaginaAtual(1);
       setIsSelectMode(false);
       setSelectedItems(new Set());
       
-      // Aplicar filtros com o tipo passado como parâmetro
+      // Aplica filtros e ordena por data (mais recentes primeiro)
       let filtrados = dados || [];
       if (tipoFiltro !== 'todos') {
         filtrados = filtrados.filter(item => item.tipo === tipoFiltro);
@@ -70,6 +76,7 @@ export default function GerenciarScreen() {
       
       filtrados = filtrados.sort((a, b) => new Date(b.data) - new Date(a.data));
       
+      // Pagina os resultados (15 itens por página)
       const paginada = filtrados.slice(0, ITEMS_PER_PAGE);
       setLancamentosExibidos(paginada);
     } catch (error) {
@@ -78,15 +85,19 @@ export default function GerenciarScreen() {
     }
   }, [filtroTipo]);
 
+  // Aplica filtros, ordenação e paginação aos lançamentos
   const aplicarFiltros = (dados, pagina = 1, tipo = filtroTipo) => {
     let filtrados = dados;
 
+    // Filtra por tipo (todos, receita ou despesa)
     if (tipo !== 'todos') {
       filtrados = filtrados.filter(item => item.tipo === tipo);
     }
 
+    // Ordena por data decrescente (mais recentes primeiro)
     filtrados = filtrados.sort((a, b) => new Date(b.data) - new Date(a.data));
 
+    // Pagina os dados (15 itens por página)
     const inicio = (pagina - 1) * ITEMS_PER_PAGE;
     const fim = inicio + ITEMS_PER_PAGE;
     const paginada = filtrados.slice(inicio, fim);
@@ -96,9 +107,10 @@ export default function GerenciarScreen() {
     setSelectedItems(new Set());
   };
 
+  // Altera o filtro de tipo e recarrega os lançamentos
   const handleChangeFilter = (tipo) => {
     setFiltroTipo(tipo);
-    // Chama aplicarFiltros com os dados atuais
+    // Aplica os filtros com os dados atuais
     let filtrados = todosLancamentos;
     if (tipo !== 'todos') {
       filtrados = filtrados.filter(item => item.tipo === tipo);
@@ -110,6 +122,7 @@ export default function GerenciarScreen() {
     setSelectedItems(new Set());
   };
 
+  // Alterna seleção de um item individual
   const toggleSelectItem = (id) => {
     const newSelected = new Set(selectedItems);
     if (newSelected.has(id)) {
@@ -120,6 +133,7 @@ export default function GerenciarScreen() {
     setSelectedItems(newSelected);
   };
 
+  // Seleciona ou desseleciona todos os itens da página atual
   const selectAllPage = () => {
     if (selectedItems.size === lancamentosExibidos.length) {
       setSelectedItems(new Set());
@@ -128,6 +142,7 @@ export default function GerenciarScreen() {
     }
   };
 
+  // Abre o modal de edição com os dados do lançamento selecionado
   const abrirModalEdicao = (lancamento) => {
     setLancamentoEmEdicao(lancamento);
     setNomeEditado(lancamento.nome);
@@ -135,6 +150,7 @@ export default function GerenciarScreen() {
     setModalEditVisible(true);
   };
 
+  // Valida e atualiza um lançamento no banco de dados
   const handleEditarLancamento = async () => {
     if (!nomeEditado.trim()) {
       Alert.alert('❌ Erro', 'Nome não pode ser vazio');
@@ -166,6 +182,7 @@ export default function GerenciarScreen() {
     }
   };
 
+  // Deleta um lançamento individual com confirmação
   const handleDeleteSingle = (id, nome, valor) => {
     Alert.alert(
       '🗑️ Confirmar Exclusão',
@@ -191,6 +208,7 @@ export default function GerenciarScreen() {
     );
   };
 
+  // Deleta múltiplos lançamentos selecionados com confirmação
   const handleDeleteMultiple = () => {
     if (selectedItems.size === 0) {
       Alert.alert('⚠️ Atenção', 'Selecione pelo menos um lançamento');
@@ -227,6 +245,7 @@ export default function GerenciarScreen() {
     );
   };
 
+  // Valida a data inserida (ano, mês, dia) com limites e regras de calendário
   const validarDataAdicionar = () => {
     if (!anoAdicionar.trim()) {
       Alert.alert('❌ Erro', 'Por favor, insira o ano');
@@ -241,6 +260,7 @@ export default function GerenciarScreen() {
       return false;
     }
 
+    // Permite ±10 anos do ano atual
     if (anoNum < anoAtual - 10 || anoNum > anoAtual + 10) {
       Alert.alert('❌ Erro', `Ano deve estar entre ${anoAtual - 10} e ${anoAtual + 10}`);
       return false;
@@ -262,6 +282,7 @@ export default function GerenciarScreen() {
       return false;
     }
 
+    // Valida o número máximo de dias do mês (considerando anos bissextos)
     const diasPorMes = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const maxDias = mesAdicionar === 1 && anoNum % 4 === 0 ? 29 : diasPorMes[mesAdicionar];
     
@@ -273,6 +294,7 @@ export default function GerenciarScreen() {
     return true;
   };
 
+  // Valida os inputs de nome e valor
   const validarInputsAdicionar = (nome, valor) => {
     if (!nome.trim()) {
       Alert.alert('❌ Erro', 'Por favor, insira uma descrição');
@@ -285,12 +307,14 @@ export default function GerenciarScreen() {
     return true;
   };
 
+  // Adiciona lançamentos repetidos com data customizável (12 meses, X meses ou único)
   const addLancamentosRepetidosComData = async (nome, valor, tipo, repeteData, dataInicial) => {
     try {
       let adicionado = false;
       
       if (repeteData.repete) {
         if (repeteData.sempre) {
+          // Adiciona para os próximos 12 meses
           for (let i = 0; i < 12; i++) {
             const data = new Date(dataInicial);
             data.setMonth(data.getMonth() + i);
@@ -308,6 +332,7 @@ export default function GerenciarScreen() {
             adicionado = true;
           }
         } else if (repeteData.meses && repeteData.meses > 0) {
+          // Adiciona pela quantidade de meses especificada
           for (let i = 0; i < repeteData.meses; i++) {
             const data = new Date(dataInicial);
             data.setMonth(data.getMonth() + i);
@@ -326,6 +351,7 @@ export default function GerenciarScreen() {
           }
         }
       } else {
+        // Adiciona apenas uma vez
         const dataStr = dataInicial.toISOString().split('T')[0];
         await addLancamento({
           nome: nome,
@@ -346,6 +372,7 @@ export default function GerenciarScreen() {
     }
   };
 
+  // Valida todos os campos e adiciona o novo lançamento
   const handleAddLancamento = async () => {
     if (!validarInputsAdicionar(nomeAdicionar, valorAdicionar)) return;
     if (!validarDataAdicionar()) return;
@@ -373,6 +400,7 @@ export default function GerenciarScreen() {
           : 'Lançamento adicionado com sucesso!';
 
         Alert.alert('✅ Sucesso', message);
+        // Limpa o formulário
         setNomeAdicionar('');
         setValorAdicionar('');
         setRendaRepete(false);
@@ -392,12 +420,14 @@ export default function GerenciarScreen() {
     }
   };
 
+  // Calcula o total de páginas baseado no filtro ativo
   const totalPaginas = Math.ceil(
     (filtroTipo === 'todos' 
       ? todosLancamentos.length 
       : todosLancamentos.filter(l => l.tipo === filtroTipo).length) / ITEMS_PER_PAGE
   );
 
+  // Renderiza cada item da lista de lançamentos com opções de edição/exclusão/seleção
   const renderLancamento = ({ item }) => (
     <TouchableOpacity
       style={[
@@ -470,7 +500,7 @@ export default function GerenciarScreen() {
     </TouchableOpacity>
   );
 
-  // ✅ Componente para o conteúdo do modal de adição
+  // ✅ Componente para o conteúdo do modal de adição (formulário completo)
   const renderModalContent = () => (
     <>
       <Text style={gerenciarStyles.modalSectionTitle}>📅 Selecione a Data</Text>

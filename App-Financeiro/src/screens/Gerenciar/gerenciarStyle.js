@@ -187,7 +187,7 @@ export const gerenciarStyles = StyleSheet.create({
    checkboxLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: colors.textBody,  // ← Mude aqui para a cor desejada
+    color: colors.textBody,
     marginLeft: 8,
   },
 

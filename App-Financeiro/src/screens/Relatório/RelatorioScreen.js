@@ -7,17 +7,18 @@ import { colors } from '../../theme/Theme';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function RelatorioScreen() {
+  // Estados principais do relatório
   const [lancamentos, setLancamentos] = useState([]);
   const [totalReceitas, setTotalReceitas] = useState(0);
   const [totalDespesas, setTotalDespesas] = useState(0);
   const [periodoSelecionado, setPeriodoSelecionado] = useState('mes');
 
-  // estados para ano e mes
+  // Estados para filtro de ano e mês
   const [anoDigitado, setAnoDigitado] = useState(new Date().getFullYear().toString());
   const [mesSelecionado, setMesSelecionado] = useState(new Date().getMonth());
   const [openMesDropdown, setOpenMesDropdown] = useState(false);
 
-  //array de meses
+  // Array de meses para o dropdown
   const meses = [
     { label: 'Janeiro', value: 0 },
     { label: 'Fevereiro', value: 1 },
@@ -39,6 +40,7 @@ export default function RelatorioScreen() {
     }, [periodoSelecionado, anoDigitado, mesSelecionado])
   );
 
+  // Carrega os lançamentos de acordo com o período selecionado
   const loadLancamentos = async () => {
     try {
       let data = [];
@@ -46,7 +48,7 @@ export default function RelatorioScreen() {
       if (periodoSelecionado === 'todos') {
         const anoNum = parseInt(anoDigitado);
         
-        // Validar se o ano é válido
+        // Valida se o ano é válido
         if (isNaN(anoNum)) {
           setLancamentos([]);
           setTotalDespesas(0);
@@ -54,6 +56,7 @@ export default function RelatorioScreen() {
           return;
         }
 
+        // Busca todos os dados e filtra por ano e mês
         const todosDados = await getLancamentos();
         data = todosDados.filter(item => {
           const dataItem = new Date(item.data + 'T00:00:00');
@@ -62,6 +65,7 @@ export default function RelatorioScreen() {
           return ano === anoNum && mes === mesSelecionado;
         });
       } else if (periodoSelecionado === 'mes') {
+        // Busca lançamentos do mês atual
         const hoje = new Date();
         const inicio = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
         const fim = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0);
@@ -80,6 +84,7 @@ export default function RelatorioScreen() {
     }
   };
 
+  // Calcula o total de receitas e despesas dos lançamentos
   const calcularTotais = (data) => {
     const receitas = data
       .filter(item => item.tipo === 'receita')
@@ -93,9 +98,11 @@ export default function RelatorioScreen() {
     setTotalDespesas(despesas);
   };
 
+  // Calcula o saldo (receitas - despesas) e o percentual de comprometimento
   const saldo = totalReceitas - totalDespesas;
   const percentualGasto = totalReceitas > 0 ? (totalDespesas / totalReceitas) * 100 : 0;
 
+  // Retorna o status e cor visual baseado no percentual de gastos
   const getPercentualStatus = () => {
     if (percentualGasto <= 50) return { text: '✅ Excelente!', color: '#38A169', desc: 'Gastos controlados' };
     if (percentualGasto <= 70) return { text: '⚠️ Atenção', color: '#F59E0B', desc: 'Cuidado com os gastos' };
@@ -105,6 +112,7 @@ export default function RelatorioScreen() {
 
   const status = getPercentualStatus();
 
+  // Renderiza botão de seleção de período (Este mês / Tudo)
   const renderPeriodoButton = (periodo, label) => (
     <TouchableOpacity
       style={[
@@ -122,6 +130,7 @@ export default function RelatorioScreen() {
     </TouchableOpacity>
   );
 
+  // Renderiza cada item da lista de lançamentos
   const renderLancamento = ({ item }) => (
     <View style={relatorioStyles.lancamento}>
       <View style={relatorioStyles.lancamentoHeader}>
