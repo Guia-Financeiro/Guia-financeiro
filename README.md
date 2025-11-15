@@ -1,7 +1,7 @@
 # 💰 Fluxo - Aplicativo de Controle Financeiro
 
 <div align="center">
-  <img src="./assets/logo_fluxo.png" alt="Fluxo Logo" width="200"/>
+  <img src="./App-Financeiro/assets/logo_fluxo.png" alt="Fluxo Logo" width="200"/>
   
   [![React Native](https://img.shields.io/badge/React%20Native-0.81.5-blue.svg)](https://reactnative.dev/)
   [![Expo](https://img.shields.io/badge/Expo-~54.0.22-000020.svg)](https://expo.dev/)
@@ -236,19 +236,19 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 📸 Screenshots
 
 ### Tela Inicial
-<img src="./assets/screenshots/home.jpg" width="250" alt="Tela Inicial"/>
+<img src="./App-Financeiro/assets/screenshots/home.jpg" width="250" alt="Tela Inicial"/>
 
 ### Resumo
-<img src="./assets/screenshots/resumo.jpg" width="250" alt="Calcular Gastos"/>
+<img src="./App-Financeiro/assets/screenshots/resumo.jpg" width="250" alt="Calcular Gastos"/>
 
 ### Cálculo de Gastos
-<img src="./assets/screenshots/calculo_de_gastos.jpg" width="250" alt="Gerenciador"/>
+<img src="./App-Financeiro/assets/screenshots/calculo_de_gastos.jpg" width="250" alt="Gerenciador"/>
 
 ### Relatório
-<img src="./assets/screenshots/relatorio.jpg" width="250" alt="Relatório"/>
+<img src="./App-Financeiro/assets/screenshots/relatorio.jpg" width="250" alt="Relatório"/>
 
 ### Gerenciar Lançamentos
-<img src="./assets/screenshots/gerenciar_lancamentos.jpg" width="250" alt="Relatório"/>
+<img src="./App-Financeiro/assets/screenshots/gerenciar_lancamentos.jpg" width="250" alt="Relatório"/>
 
 ---
 
